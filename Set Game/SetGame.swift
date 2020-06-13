@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct SetGame<CardContent> {
+struct SetGame<CardContent> where CardContent: Equatable {
     
     private(set) var cards: Array<Card>
     

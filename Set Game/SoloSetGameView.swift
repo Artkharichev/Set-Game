@@ -40,6 +40,7 @@ struct CardView: View {
             RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
             RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
             Text(card.content)
+            Diamond().opacity(0.5)
         }
         .font(Font.system(size: fontSize(for: size)))
     }

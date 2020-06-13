@@ -14,8 +14,8 @@ class SoloSetGame: ObservableObject {
     @Published private var model: SetGame<String> = SoloSetGame.createSetGame()
     
     static func createSetGame() -> SetGame<String> {
-        let emojis = ["😀","😇","😍"]
-        return SetGame<String>() {emojis[$0]}
+        let figures = ["Diamond","Rectangle","Oval"]
+        return SetGame<String>() {figures[$0]}
     }
     
     //MARK: - Access to the Model
