@@ -14,20 +14,48 @@ struct SoloSetGameView: View {
     @ObservedObject var viewModel: SoloSetGame
     
     var body: some View {
-
+        VStack {
+            HStack{
+                Spacer()
+                Button("New Game "){
+                    self.viewModel.newGame()
+                }
+                .foregroundColor(.black)
+                .padding(.horizontal)
+            }
             Grid (viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
                     self.viewModel.choose(card: card)
                 }
-            .padding(5)
+                .padding(5)
             }
-        .padding()
-        .foregroundColor(.red)
+            .padding()
+            addButton()
+        }
+    }
+    
+    private func addButton() -> some View {
+        Group {
+            if !self.viewModel.disableButtonAdd {
+                Button("  +3 card   "){
+                    self.viewModel.addCards()
+                }
+                .background(Color.yellow.opacity(0.3))
+                .cornerRadius(10)
+            } else {
+                Button("  No card   "){
+                    self.viewModel.addCards()
+                }
+                .disabled(true)
+            }
+        }
+        .font(.largeTitle)
+        .foregroundColor(.black)
     }
 }
 
 struct CardView: View {
-    var card: SetGame<String>.Card
+    var card: SetGame.Card
     
     var body: some View{
         GeometryReader { geometry in
@@ -35,29 +63,88 @@ struct CardView: View {
         }
     }
     
+    @ViewBuilder
     private func body(for size: CGSize) -> some View {
         ZStack {
-            RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
-            RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
-            Text(card.content)
-            Diamond().opacity(0.5)
+            Group {
+                RoundedRectangle(cornerRadius: cardCornerRadius).fill(Color.white)
+                RoundedRectangle(cornerRadius: cardCornerRadius).stroke(lineWidth: cardLineWidth)
+                if card.isSelected {
+                    RoundedRectangle(cornerRadius: cardCornerRadius)
+                        .stroke(lineWidth: cardSelectedLineWidth)
+                        .foregroundColor(.orange)
+                    RoundedRectangle(cornerRadius: cardCornerRadius)
+                        .opacity(0.06).foregroundColor(.gray)
+                }
+                VStack {
+                    ForEach(0..<card.number.rawValue){ _ in
+                        self.figure
+                            .aspectRatio(2, contentMode: .fit)
+                    }
+                }
+                .padding()
+                .foregroundColor(card.color.description)
+            }
         }
-        .font(Font.system(size: fontSize(for: size)))
+        .aspectRatio(0.7, contentMode: .fit)
+    }
+    
+    var figure: some View {
+        Group {
+            if card.shape == .diamond {
+                if card.shading == .outlined {
+                    Diamond().stroke(lineWidth: figureLineWidth)
+                } else {
+                    if card.shading == .stripped {
+                        Diamond().fill().opacity(shading)
+                    } else {
+                        Diamond().fill().opacity(shading)
+                    }
+                }
+            }
+            if card.shape == .oval {
+                if card.shading == .outlined {
+                    Capsule().stroke(lineWidth: figureLineWidth)
+                } else {
+                    if card.shading == .stripped {
+                        Capsule().fill().opacity(shading)
+                    } else {
+                        Capsule().fill().opacity(shading)
+                    }
+                }
+            }
+            if card.shape == .squiggle {
+                if card.shading == .outlined {
+                    RoundedRectangle(cornerRadius: rectangleCornerRadius).stroke(lineWidth: figureLineWidth)
+                } else {
+                    if card.shading == .stripped {
+                        RoundedRectangle(cornerRadius: rectangleCornerRadius).fill().opacity(shading)
+                    } else {
+                        RoundedRectangle(cornerRadius: rectangleCornerRadius).fill().opacity(shading)
+                    }
+                }
+            }
+        }
+    }
+    
+    var shading: Double {
+        switch card.shading {
+        case .outlined: return card.shading.rawValue
+        case .stripped: return card.shading.rawValue
+        case .solid: return card.shading.rawValue
+        }
     }
     
     //MARK: - Drawing Constants
     
-    let cornerRadius: CGFloat = 10.0
-    let edgeLineWidth: CGFloat = 3.0
-    func fontSize(for size: CGSize) -> CGFloat {
-        min(size.width, size.height) * 0.75
-    }
+    let cardCornerRadius: CGFloat = 10.0
+    let cardLineWidth: CGFloat = 1.0
+    let cardSelectedLineWidth: CGFloat = 3.0
+    let figureLineWidth: CGFloat = 2.0
+    let rectangleCornerRadius: CGFloat = 3.0
 }
 
-
-
-
-
+    //MARK: - Previews
 
 struct SetGameView_Previews: PreviewProvider {
     static var previews: some View {

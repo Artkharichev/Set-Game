@@ -7,51 +7,85 @@
 //
 //  Model
 
-import SwiftUI
+import Foundation
 
-struct SetGame<CardContent> where CardContent: Equatable {
+struct SetGame  {
     
     private(set) var cards: Array<Card>
     
-    // Game Parameters
-    private let numbersOfDifferentContent = 3
-    private let numbersOfContent = [1,2,3]
-    private let colors = [Color.red, Color.green, Color.purple]
-    private let textures = [0.0, 0.4, 1.0]
+    private var selectedCards: [Card] = []
     
+    private let numberOfFirstCards = 12
+    
+    private(set) var disableButtonAdd = false
+    
+    private var cardsCounter = 12 {
+        didSet{
+            for index in oldValue..<cardsCounter {
+                cards[index].onScreen = true
+            }
+        }
+    }
     
     mutating func choose(card: Card) {
-        print("card chosen: \(card)")
+        
+        guard let choosenIndex = cards.firstIndex(matching: card) else {return}
+        
+        cards[choosenIndex].isSelected.toggle()
+        
+        selectedCards = cards.filter {$0.isSelected}
+        
+        if selectedCards.count == 3 {
+            matching()
+        }
+    }
+    
+    mutating func matching() {
+        //TODO: - DO IT!
+    }
+    
+    mutating func addCards() {
+        if cardsCounter < cards.count {
+        cardsCounter += 3
+        }
+        if cardsCounter == cards.count {
+            disableButtonAdd = true
+        }
     }
     
     //Create Game
-    init(cardContentFactor: (Int) -> CardContent) {
+    init() {
         cards = Array<Card>()
-        var identifire = 0
-        for exemplar in 0..<numbersOfDifferentContent {
-            let content = cardContentFactor(exemplar)
-            for number in numbersOfContent {
-                for color in colors {
-                    for texture in textures {
-                        identifire += 1
-                        cards.append(Card(content: content, numberOfContent: number, color: color, texture: texture, id: identifire))
+        for number in CardNumber.allCases {
+            for shape in CardShape.allCases {
+                for color in CardColor.allCases {
+                    for shading in CardShading.allCases {
+                        cards.append(Card(shape: shape, number: number, color: color, shading: shading))
                     }
                 }
             }
         }
         cards.shuffle()
-        for index in 0..<12 {
+        for index in 0..<numberOfFirstCards {
             cards[index].onScreen = true
         }
     }
     
     struct Card: Identifiable {
-        var content : CardContent
-        var numberOfContent: Int
-        var color: Color
-        var texture: Double
-        var isMatched = false
+        var shape : CardShape
+        var number: CardNumber
+        var color: CardColor
+        var shading: CardShading
+        var isMatched = false {
+            didSet{
+                if isMatched {
+                    onScreen = false
+                }
+            }
+        }
         var onScreen = false
-        var id: Int
+        var isSelected = false
+        var id = UUID()
     }
+    
 }

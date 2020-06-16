@@ -11,17 +11,13 @@ import SwiftUI
 
 class SoloSetGame: ObservableObject {
     
-    @Published private var model: SetGame<String> = SoloSetGame.createSetGame()
+    @Published private var game = SetGame()
     
-    static func createSetGame() -> SetGame<String> {
-        let figures = ["Diamond","Rectangle","Oval"]
-        return SetGame<String>() {figures[$0]}
-    }
     
     //MARK: - Access to the Model
-    var cards: Array<SetGame<String>.Card> {
-        var cardsToScreen = Array<SetGame<String>.Card>()
-        for card in model.cards {
+    var cards: Array<SetGame.Card> {
+        var cardsToScreen = Array<SetGame.Card>()
+        for card in game.cards {
             if card.onScreen {
                 cardsToScreen.append(card)
             }
@@ -29,8 +25,20 @@ class SoloSetGame: ObservableObject {
         return cardsToScreen
     }
     
+    var disableButtonAdd: Bool {
+        game.disableButtonAdd
+    }
+    
     //MARK: - Intents
-    func choose(card: SetGame<String>.Card) {
-        model.choose(card: card)
+    func choose(card: SetGame.Card) {
+        game.choose(card: card)
+    }
+    
+    func newGame() {
+        game = SetGame()
+    }
+    
+    func addCards(){
+        game.addCards()
     }
 }

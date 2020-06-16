@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		676FE7C02497CF7000908291 /* GameCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676FE7BF2497CF7000908291 /* GameCard.swift */; };
 		67A6DAE62494DA0300CD83ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A6DAE52494DA0300CD83ED /* AppDelegate.swift */; };
 		67A6DAE82494DA0300CD83ED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A6DAE72494DA0300CD83ED /* SceneDelegate.swift */; };
 		67A6DAEC2494DA0500CD83ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67A6DAEB2494DA0500CD83ED /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		676FE7BF2497CF7000908291 /* GameCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCard.swift; sourceTree = "<group>"; };
 		67A6DAE22494DA0300CD83ED /* Set Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A6DAE52494DA0300CD83ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67A6DAE72494DA0300CD83ED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				67A6DB032494DDE400CD83ED /* SoloSetGame.swift */,
 				67A6DAFF2494DD1200CD83ED /* SetGame.swift */,
 				67A6DB0924953F2200CD83ED /* Figure.swift */,
+				676FE7BF2497CF7000908291 /* GameCard.swift */,
 				67A6DAFB2494DB7C00CD83ED /* GridLayout.swift */,
 				67A6DAF92494DB5E00CD83ED /* Grid.swift */,
 				67A6DAFD2494DBCE00CD83ED /* Array+Identifiable.swift */,
@@ -169,6 +172,7 @@
 				67A6DB062494DE2900CD83ED /* SoloSetGameView.swift in Sources */,
 				67A6DAFC2494DB7C00CD83ED /* GridLayout.swift in Sources */,
 				67A6DB002494DD1200CD83ED /* SetGame.swift in Sources */,
+				676FE7C02497CF7000908291 /* GameCard.swift in Sources */,
 				67A6DB0A24953F2200CD83ED /* Figure.swift in Sources */,
 				67A6DAFA2494DB5E00CD83ED /* Grid.swift in Sources */,
 				67A6DB042494DDE400CD83ED /* SoloSetGame.swift in Sources */,
