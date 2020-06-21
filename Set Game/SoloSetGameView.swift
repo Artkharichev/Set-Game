@@ -5,7 +5,7 @@
 //  Created by Артём Харичев on 13.06.2020.
 //  Copyright © 2020 Artem Kharichev. All rights reserved.
 //
-// View
+//  View
 
 import SwiftUI
 
@@ -72,9 +72,9 @@ struct CardView: View {
                 if card.isSelected {
                     RoundedRectangle(cornerRadius: cardCornerRadius)
                         .stroke(lineWidth: cardSelectedLineWidth)
-                        .foregroundColor(.orange)
+                        .foregroundColor(pressedColor)
                     RoundedRectangle(cornerRadius: cardCornerRadius)
-                        .opacity(0.06).foregroundColor(.gray)
+                        .opacity(0.06).foregroundColor(pressedColor)
                 }
                 VStack {
                     ForEach(0..<card.number.rawValue){ _ in
@@ -135,6 +135,18 @@ struct CardView: View {
         }
     }
     
+    var pressedColor: Color {
+        if card.isChecking {
+            if card.isMatched {
+                return .green
+            } else {
+                return .red
+            }
+        } else {
+            return .orange
+        }
+    }
+    
     //MARK: - Drawing Constants
     
     let cardCornerRadius: CGFloat = 10.0
@@ -144,7 +156,7 @@ struct CardView: View {
     let rectangleCornerRadius: CGFloat = 3.0
 }
 
-    //MARK: - Previews
+//MARK: - Previews
 
 struct SetGameView_Previews: PreviewProvider {
     static var previews: some View {

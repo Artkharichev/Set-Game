@@ -19,6 +19,10 @@ struct SetGame  {
     
     private(set) var disableButtonAdd = false
     
+    private var wasJustMatch = false
+    
+    private(set) var canCheck = false
+    
     private var cardsCounter = 12 {
         didSet{
             for index in oldValue..<cardsCounter {
@@ -31,22 +35,84 @@ struct SetGame  {
         
         guard let choosenIndex = cards.firstIndex(matching: card) else {return}
         
-        cards[choosenIndex].isSelected.toggle()
+        
+        if cards[choosenIndex].isChecking {
+            
+            checkAndReplace(for: choosenIndex)
+            
+        } else {
+            cards[choosenIndex].isSelected.toggle()
+        }
         
         selectedCards = cards.filter {$0.isSelected}
         
         if selectedCards.count == 3 {
-            matching()
+            checking()
+        }
+        
+        
+        if selectedCards.count > 3 {
+            
+            checkAndReplace(for: choosenIndex)
+            
+            cards[choosenIndex].isSelected = true
+            selectedCards = cards.filter {$0.isSelected}
         }
     }
     
-    mutating func matching() {
-        //TODO: - DO IT!
+    mutating func checking()  {
+        
+        for index in 0..<cards.count {
+            for ind in 0...2 {
+                if selectedCards[ind].id == cards[index].id {
+                    cards[index].isChecking = true
+                }
+            }
+        }
+        
+        guard ((selectedCards[0].number == selectedCards[1].number && selectedCards[0].number == selectedCards[2].number) || (selectedCards[0].number != selectedCards[1].number && selectedCards[0].number != selectedCards[2].number)) else {return}
+        
+        guard ((selectedCards[0].color == selectedCards[1].color && selectedCards[0].color == selectedCards[2].color) || (selectedCards[0].color != selectedCards[1].color && selectedCards[0].color != selectedCards[2].color)) else {return}
+        
+        guard ((selectedCards[0].shading == selectedCards[1].shading && selectedCards[0].shading == selectedCards[2].shading) || (selectedCards[0].shading != selectedCards[1].shading && selectedCards[0].shading != selectedCards[2].shading)) else {return}
+        
+        guard ((selectedCards[0].shape == selectedCards[1].shape && selectedCards[0].shape == selectedCards[2].shape) || (selectedCards[0].shape != selectedCards[1].shape && selectedCards[0].shape != selectedCards[2].shape)) else {return}
+        
+        for index in 0..<cards.count {
+            for ind in 0...2 {
+                if selectedCards[ind].id == cards[index].id {
+                    cards[index].isMatched = true
+                }
+            }
+        }
+        wasJustMatch = true
+    }
+    
+    mutating func checkAndReplace(for index: Int) {
+        
+        selectedCards.removeAll()
+        
+        for index in 0..<cards.count {
+            cards[index].isSelected = false
+            cards[index].isChecking = false
+            if wasJustMatch {
+                if cards[index].isMatched {
+                    cards[index].onScreen = false
+                }
+            }
+        }
+        
+        if wasJustMatch {
+            addCards()
+            wasJustMatch = false
+        } else {
+            cards[index].isSelected = true
+        }
     }
     
     mutating func addCards() {
         if cardsCounter < cards.count {
-        cardsCounter += 3
+            cardsCounter += 3
         }
         if cardsCounter == cards.count {
             disableButtonAdd = true
@@ -76,15 +142,10 @@ struct SetGame  {
         var number: CardNumber
         var color: CardColor
         var shading: CardShading
-        var isMatched = false {
-            didSet{
-                if isMatched {
-                    onScreen = false
-                }
-            }
-        }
+        var isMatched = false
         var onScreen = false
         var isSelected = false
+        var isChecking = false
         var id = UUID()
     }
     

@@ -44,6 +44,6 @@ enum CardColor: CaseIterable {
 
 enum CardShading: Double, CaseIterable {
     case solid = 1.0
-    case stripped = 0.4
+    case stripped = 0.35
     case outlined = 0.0
 }

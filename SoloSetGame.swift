@@ -29,6 +29,10 @@ class SoloSetGame: ObservableObject {
         game.disableButtonAdd
     }
     
+    var canCheck: Bool {
+        game.canCheck
+    }
+    
     //MARK: - Intents
     func choose(card: SetGame.Card) {
         game.choose(card: card)
