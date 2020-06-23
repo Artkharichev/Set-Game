@@ -16,29 +16,58 @@ struct SoloSetGameView: View {
     var body: some View {
         VStack {
             HStack{
+                Text ("     Score: \(self.viewModel.score) ")
                 Spacer()
-                Button("New Game "){
-                    self.viewModel.newGame()
+                Button(action: newGame){
+                    Text ("New Game ")
                 }
                 .foregroundColor(.black)
                 .padding(.horizontal)
             }
             Grid (viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
-                    self.viewModel.choose(card: card)
+                    withAnimation() {
+                        self.viewModel.choose(card: card)
+                    }
                 }
                 .padding(5)
+                .transition(.offset(self.randomOfSet))
             }
             .padding()
+            .onAppear {
+                self.newGame()
+            }
+            
             addButton()
+        }
+    }
+    private var randomOfSet: CGSize {
+        let size = UIScreen.main.bounds.size
+        
+        let sings: [CGFloat] = [-1, 1]
+        let x: CGFloat = .random(in: 0..<size.width) * sings.randomElement()!
+        let y: CGFloat = .random(in: 0..<size.height) * sings.randomElement()!
+        
+        return CGSize(width: x, height: y)
+    }
+    
+    private func newGame() {
+        withAnimation(.easeInOut(duration: 0.7)) {
+            self.viewModel.newGame()
+        }
+    }
+    
+    private func dealMoreCard() {
+        withAnimation() {
+            self.viewModel.addCards()
         }
     }
     
     private func addButton() -> some View {
         Group {
             if !self.viewModel.disableButtonAdd {
-                Button("  +3 card   "){
-                    self.viewModel.addCards()
+                Button(action: dealMoreCard){
+                    Text ("  +3 card   ")
                 }
                 .background(Color.yellow.opacity(0.3))
                 .cornerRadius(10)
@@ -89,7 +118,7 @@ struct CardView: View {
         .aspectRatio(0.7, contentMode: .fit)
     }
     
-    var figure: some View {
+    private var figure: some View {
         Group {
             if card.shape == .diamond {
                 if card.shading == .outlined {
@@ -127,7 +156,7 @@ struct CardView: View {
         }
     }
     
-    var shading: Double {
+    private var shading: Double {
         switch card.shading {
         case .outlined: return card.shading.rawValue
         case .stripped: return card.shading.rawValue
@@ -135,7 +164,7 @@ struct CardView: View {
         }
     }
     
-    var pressedColor: Color {
+    private var pressedColor: Color {
         if card.isChecking {
             if card.isMatched {
                 return .green
@@ -149,11 +178,11 @@ struct CardView: View {
     
     //MARK: - Drawing Constants
     
-    let cardCornerRadius: CGFloat = 10.0
-    let cardLineWidth: CGFloat = 1.0
-    let cardSelectedLineWidth: CGFloat = 3.0
-    let figureLineWidth: CGFloat = 2.0
-    let rectangleCornerRadius: CGFloat = 3.0
+    private let cardCornerRadius: CGFloat = 10.0
+    private let cardLineWidth: CGFloat = 1.0
+    private let cardSelectedLineWidth: CGFloat = 3.0
+    private let figureLineWidth: CGFloat = 2.0
+    private let rectangleCornerRadius: CGFloat = 3.0
 }
 
 //MARK: - Previews

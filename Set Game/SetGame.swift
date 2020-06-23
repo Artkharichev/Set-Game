@@ -70,13 +70,13 @@ struct SetGame  {
             }
         }
         
-        guard ((selectedCards[0].number == selectedCards[1].number && selectedCards[0].number == selectedCards[2].number) || (selectedCards[0].number != selectedCards[1].number && selectedCards[0].number != selectedCards[2].number)) else {return}
+        guard ((selectedCards[0].number == selectedCards[1].number && selectedCards[0].number == selectedCards[2].number) || (selectedCards[0].number != selectedCards[1].number && selectedCards[0].number != selectedCards[2].number && selectedCards[1].number != selectedCards[2].number)) else {return}
         
-        guard ((selectedCards[0].color == selectedCards[1].color && selectedCards[0].color == selectedCards[2].color) || (selectedCards[0].color != selectedCards[1].color && selectedCards[0].color != selectedCards[2].color)) else {return}
+        guard ((selectedCards[0].color == selectedCards[1].color && selectedCards[0].color == selectedCards[2].color) || (selectedCards[0].color != selectedCards[1].color && selectedCards[0].color != selectedCards[2].color && selectedCards[1].color != selectedCards[2].color)) else {return}
         
-        guard ((selectedCards[0].shading == selectedCards[1].shading && selectedCards[0].shading == selectedCards[2].shading) || (selectedCards[0].shading != selectedCards[1].shading && selectedCards[0].shading != selectedCards[2].shading)) else {return}
+        guard ((selectedCards[0].shading == selectedCards[1].shading && selectedCards[0].shading == selectedCards[2].shading) || (selectedCards[0].shading != selectedCards[1].shading && selectedCards[0].shading != selectedCards[2].shading && selectedCards[1].shading != selectedCards[2].shading)) else {return}
         
-        guard ((selectedCards[0].shape == selectedCards[1].shape && selectedCards[0].shape == selectedCards[2].shape) || (selectedCards[0].shape != selectedCards[1].shape && selectedCards[0].shape != selectedCards[2].shape)) else {return}
+        guard ((selectedCards[0].shape == selectedCards[1].shape && selectedCards[0].shape == selectedCards[2].shape) || (selectedCards[0].shape != selectedCards[1].shape && selectedCards[0].shape != selectedCards[2].shape && selectedCards[1].shape != selectedCards[2].shape)) else {return}
         
         for index in 0..<cards.count {
             for ind in 0...2 {

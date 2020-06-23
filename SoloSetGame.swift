@@ -25,6 +25,10 @@ class SoloSetGame: ObservableObject {
         return cardsToScreen
     }
     
+    var score: Int {
+        game.cards.filter { $0.isMatched}.count
+    }
+    
     var disableButtonAdd: Bool {
         game.disableButtonAdd
     }
