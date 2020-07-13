@@ -12,4 +12,4 @@ Developed using:
 - Created new Shapes
 - Created Grid struct ( like as HStack, ForEach)
 - Extension
-- a lot of enum and clousers
+- a lot of enum and clousers.
